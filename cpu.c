@@ -21,7 +21,7 @@ void reset(CPU* cpu, Memory* mem) {
 byte fetch(CPU* cpu, Memory* mem, u32* cycles) {
     byte data = mem->data[cpu->programCounter];
     cpu->programCounter++;
-    cycles--;
+    *cycles -= 1;
     return data;
 }
 
@@ -37,6 +37,8 @@ void execute(CPU* cpu, Memory* mem, u32 cycles) {
             case LDA_AB: {
                 byte value = mem->data[fetch(cpu, mem, &cycles)];
                 cpu->a = value;
+                
+                break;
             }
             default:
                 break;
