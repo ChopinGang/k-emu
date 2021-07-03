@@ -31,4 +31,8 @@ typedef struct CPU {
 void reset(CPU* cpu, Memory* mem);
 void initialize(Memory* mem);
 void execute(CPU* cpu, Memory* mem, u32 cycles);
-byte fetch(CPU* cpu, Memory* mem, u32* cycles);
+word readWord(CPU* cpu, Memory* mem, u32* cycles, word addr);
+byte readByte(CPU* cpu, Memory* mem, u32* cycles, word addr);
+word fetchWord(CPU* cpu, Memory* mem, u32* cycles);
+byte fetchByte(CPU* cpu, Memory* mem, u32* cycles);
+void loadSetStatus(CPU* cpu);
