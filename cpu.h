@@ -12,7 +12,7 @@ typedef struct Memory {
 typedef struct CPU {
 
     word programCounter;
-    word stackPointer;
+    byte stackPointer;
 
     // registers
     byte a, x, y;
@@ -23,7 +23,7 @@ typedef struct CPU {
     byte i : 1; // interrupt disable
     byte d : 1; // decimal
     byte b : 1; // break
-    byte o : 1; // overflow
+    byte v : 1; // overflow
     byte n : 1; // negative
 
 } CPU;
@@ -36,3 +36,8 @@ byte readByte(CPU* cpu, Memory* mem, u32* cycles, word addr);
 word fetchWord(CPU* cpu, Memory* mem, u32* cycles);
 byte fetchByte(CPU* cpu, Memory* mem, u32* cycles);
 void loadSetStatus(CPU* cpu);
+void pushWord(CPU* cpu, Memory* mem, word data, u32* cycles);
+void pushByte(CPU* cpu, Memory* mem, byte data, u32* cycles);
+byte popByte(CPU* cpu, Memory* mem, u32* cycles);
+word popWord(CPU* cpu, Memory* mem, u32* cycles);
+void addSetFlags(CPU* cpu, word result);

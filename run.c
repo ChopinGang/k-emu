@@ -1,18 +1,17 @@
 #include "cpu.h"
-#include <stdio.h>
 #include "opcodes.h"
+#include <stdio.h>
 
 int main() {
     Memory mem;
     CPU cpu;
     reset(&cpu, &mem);
-    //
-    mem.data[0xfffc] = LDA_ZP;
+    // starting stuff
+    mem.data[0xfffc] = 0x42;
     mem.data[0xfffd] = 0x69;
-    mem.data[0x0069] = 0x41;
-    // mem.data[0x5657] = 0x69;
+    
     //
-    execute(&cpu, &mem, 3);
+    execute(&cpu, &mem, 50);
     printf("%x\n", cpu.a);
     return 0;
 }
