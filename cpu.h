@@ -41,3 +41,5 @@ void pushByte(CPU* cpu, Memory* mem, byte data, u32* cycles);
 byte popByte(CPU* cpu, Memory* mem, u32* cycles);
 word popWord(CPU* cpu, Memory* mem, u32* cycles);
 void addSetFlags(CPU* cpu, word result);
+void writeByte(CPU* cpu, Memory* mem, u32* cycles, byte data, word addr);
+void writeWord(CPU* cpu, Memory* mem, u32* cycles, word data, word addr);

@@ -47,6 +47,17 @@ word readWord(CPU* cpu, Memory* mem, u32* cycles, word addr) {
     return data;
 }
 
+void writeByte(CPU* cpu, Memory* mem, u32* cycles, byte data, word addr) {
+    mem->data[addr] = data;
+    *cycles -= 1;
+}
+
+void writeWord(CPU* cpu, Memory* mem, u32* cycles, word data, word addr) {
+    mem->data[addr] = (byte) (data << 8);
+    mem->data[addr + 1] = (byte) (data & 0xff);
+    *cycles -= 2;
+}
+
 void loadSetStatus(CPU* cpu) {
     cpu->z = (cpu->a == 0);
     cpu->n = (cpu->a & 0b10000000) > 0;
@@ -91,13 +102,9 @@ void addSetFlags(CPU* cpu, word result) {
 }
 
 void execute(CPU* cpu, Memory* mem, u32 cycles) {
-    {
-        u32 temp = 2;
-        word startAddress = fetchWord(cpu, mem, &temp);
-        cpu->programCounter = startAddress;
-    }
+    u32 starting;
     while (cycles > 0) {
-        u32 starting = cpu->programCounter;
+        starting = cpu->programCounter;
         byte instr = fetchByte(cpu, mem, &cycles);
         switch (instr) {
             case LDA_IM: {
@@ -172,7 +179,6 @@ void execute(CPU* cpu, Memory* mem, u32 cycles) {
                 printf("Instruction not handled: %x : %x\n", instr, cpu->programCounter);
             }   break;
         }
-        printf("%x: %x | %x - %d\t", starting, instr, cpu->a, cycles);
-        printf("a%x c%x z%x n%x v%x\n", cpu->a, cpu->c, cpu->z, cpu->n, cpu->v);
+        printf("%x: %x | %x - %d\n", starting, instr, cpu->a, cycles);
     }
 }

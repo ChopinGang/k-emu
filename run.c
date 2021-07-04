@@ -6,11 +6,14 @@ int main() {
     Memory mem;
     CPU cpu;
     reset(&cpu, &mem);
-    // starting stuff
-    mem.data[0xfffc] = 0x42;
-    mem.data[0xfffd] = 0x69;
-    
-    //
+    FILE* fp = fopen("in.hex", "rb");
+    fread(mem.data, 1, MAX_MEM, fp);
+    fclose(fp);
+    {
+        u32 temp = 2;
+        word startAddress = fetchWord(&cpu, &mem, &temp);
+        cpu.programCounter = startAddress;
+    }
     execute(&cpu, &mem, 50);
     printf("%x\n", cpu.a);
     return 0;
